@@ -1,0 +1,72 @@
+#pragma once
+#include "abstractclass.h"
+
+template <typename T>
+class MyList : public List<T> {
+public:
+    // Constructor to initialize the base class
+    MyList(int max = 10, int current = 0) : List<T>(max, current) {}
+
+    // Add element at the first index
+    void addElementAtFirstIndex(T value) override {
+        if (this->currentindex < this->maxsize) {
+            for (int i = this->currentindex; i > 0; i--) {
+                this->arr[i] = this->arr[i - 1];
+            }
+            this->arr[0] = value;
+            this->currentindex++;
+        }
+        else {
+            cout << "Array is full!" << endl;
+        }
+    }
+
+    // Add element at the last index
+    void addElementAtLastIndex(T value) override {
+        if (this->currentindex < this->maxsize) {
+            this->arr[this->currentindex] = value;
+            this->currentindex++;
+        }
+        else {
+            cout << "Array is full!" << endl;
+        }
+    }
+
+    // Remove element from the end
+    T removeElementFromEnd() override {
+        if (this->currentindex > 0) {
+            T value = this->arr[this->currentindex - 1];
+            this->currentindex--;
+            return value;
+        }
+        else {
+            cout << "Array is empty!" << endl;
+            return T();
+        }
+    }
+
+    // Remove element from the start
+    void removeElementFromStart() override {
+        if (this->currentindex > 0) {
+            for (int i = 0; i < this->currentindex - 1; i++) {
+                this->arr[i] = this->arr[i + 1];
+            }
+            this->currentindex--;
+        }
+        else {
+            cout << "Array is empty!" << endl;
+        }
+    }
+
+    // Display all elements in the list
+    void display() override {
+        if (this->currentindex == 0) {
+            cout << "List is empty." << endl;
+            return;
+        }
+        for (int i = 0; i < this->currentindex; i++) {
+            cout << this->arr[i] << " ";
+        }
+        cout << endl;
+    }
+};
