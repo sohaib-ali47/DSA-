@@ -1,0 +1,174 @@
+#pragma once
+#include "abstractclass.h"
+#include <unordered_map>
+
+template <typename T>
+class CustomList : public List<T> {
+public:
+    // Constructor to initialize the base class
+    CustomList(int max = 10, int current = 0) : List<T>(max, current) {}
+
+    // Add element at the first index
+    void addElementAtFirstIndex(T value) override {
+        if (this->currentindex < this->maxsize) {
+            for (int i = this->currentindex; i > 0; i--) {
+                this->arr[i] = this->arr[i - 1];
+            }
+            this->arr[0] = value;
+            this->currentindex++;
+        }
+        else {
+            cout << "Array is full!" << endl;
+        }
+    }
+
+    // Add element at the last index
+    void addElementAtLastIndex(T value) override {
+        if (this->currentindex < this->maxsize) {
+            this->arr[this->currentindex] = value;
+            this->currentindex++;
+        }
+        else {
+            cout << "Array is full!" << endl;
+        }
+    }
+
+    // Remove element from the end
+    T removeElementFromEnd() override {
+        if (this->currentindex > 0) {
+            T value = this->arr[this->currentindex - 1];
+            this->currentindex--;
+            return value;
+        }
+        else {
+            cout << "Array is empty!" << endl;
+            return T();
+        }
+    }
+
+    // Remove element from the start
+    void removeElementFromStart() override {
+        if (this->currentindex > 0) {
+            for (int i = 0; i < this->currentindex - 1; i++) {
+                this->arr[i] = this->arr[i + 1];
+            }
+            this->currentindex--;
+        }
+        else {
+            cout << "Array is empty!" << endl;
+        }
+    }
+
+    // Display all elements in the list
+    void display() override {
+        if (this->currentindex == 0) {
+            cout << "List is empty." << endl;
+            return;
+        }
+        for (int i = 0; i < this->currentindex; i++) {
+            cout << this->arr[i] << " ";
+        }
+        cout << endl;
+    }
+
+    // Sum of prime numbers in the list
+    T sum_ofPrime() {
+        T sum = 0;
+        for (int i = 0; i < this->currentindex; i++) {
+            if (isPrime(this->arr[i])) {
+                sum += this->arr[i];
+            }
+        }
+        return sum;
+    }
+
+    // Second maximum even number
+    T secondMaxEven() {
+        T firstMax = -1, secondMax = -1;
+        for (int i = 0; i < this->currentindex; i++) {
+            if (this->arr[i] % 2 == 0) {
+                if (this->arr[i] > firstMax) {
+                    secondMax = firstMax;
+                    firstMax = this->arr[i];
+                }
+                else if (this->arr[i] > secondMax && this->arr[i] != firstMax) {
+                    secondMax = this->arr[i];
+                }
+            }
+        }
+        return secondMax;
+    }
+
+    // Second minimum odd number
+    T secondMinOdd() {
+        T firstMin = INT_MAX, secondMin = INT_MAX;
+        for (int i = 0; i < this->currentindex; i++) {
+            if (this->arr[i] % 2 != 0) {
+                if (this->arr[i] < firstMin) {
+                    secondMin = firstMin;
+                    firstMin = this->arr[i];
+                }
+                else if (this->arr[i] < secondMin && this->arr[i] != firstMin) {
+                    secondMin = this->arr[i];
+                }
+            }
+        }
+        return secondMin;
+    }
+
+    // Print all duplicates
+    void printDuplicates() {
+        unordered_map<T, int> countMap;
+        for (int i = 0; i < this->currentindex; i++) {
+            countMap[this->arr[i]]++;
+        }
+        for (auto& elem : countMap) {
+            if (elem.second > 1) {
+                cout << "Duplicate: " << elem.first << endl;
+            }
+        }
+    }
+
+    // Rotate the list clockwise
+    void rotateClockwise(int r) {
+        r %= this->currentindex;
+        if (r == 0) return;
+
+        T* temp = new T[this->currentindex];
+        for (int i = 0; i < this->currentindex; i++) {
+            temp[i] = this->arr[(i + this->currentindex - r) % this->currentindex];
+        }
+        for (int i = 0; i < this->currentindex; i++) {
+            this->arr[i] = temp[i];
+        }
+        delete[] temp;
+    }
+
+    // Rotate the list anti-clockwise
+    void rotateAntiClockwise(int r) {
+        r %= this->currentindex;
+        if (r == 0) return;
+
+        T* temp = new T[this->currentindex];
+        for (int i = 0; i < this->currentindex; i++) {
+            temp[i] = this->arr[(i + r) % this->currentindex];
+        }
+        for (int i = 0; i < this->currentindex; i++) {
+            this->arr[i] = temp[i];
+        }
+        delete[] temp;
+    }
+
+private:
+    // Helper function to check if a number is prime
+    bool isPrime(T num) {
+        if (num < 2) return false;
+        for (T i = 2; i * i <= num; i++) {
+            if (num % i == 0) return false;
+        }
+        return true;
+    }
+};
+
+
+
