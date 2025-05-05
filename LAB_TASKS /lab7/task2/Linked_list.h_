@@ -1,0 +1,113 @@
+# include "Node.h"
+using namespace std;
+#include <iostream>
+
+
+
+class Linked_list {         /////////////////////
+private:
+
+	Node* head;
+
+
+public:
+
+	Linked_list()   //////////////////
+	{
+		head = nullptr;
+	}
+
+	void push_front(int value)///////////////////////
+	{
+		cout << "pushing the " << value << "  at start" << endl;
+		Node* newNode = new Node(value);
+		if (head == NULL)
+		{
+			head = newNode;
+			return;
+		}
+		else
+		{
+			newNode->next = head;
+			head = newNode;
+		}
+	}
+	void push_back(int value)////////////////////////////
+	{
+		cout << "pushing the " << value << "  at the end" << endl;
+		Node* newNode = new Node(value);
+		if (head == NULL)
+		{
+			head = newNode;
+			return;
+		}
+		else
+		{
+			Node* temp = head;
+
+			while (temp->next != nullptr)
+			{
+				temp = temp->next;
+			}
+			temp->next = newNode;
+
+
+		}
+
+	}
+
+	void delete_by_value(int value)
+	{
+		cout << "deleting the " << value << endl;
+		Node* temp = head;
+		Node* previous = nullptr;
+		int index = 0;
+
+		if (temp == nullptr)
+		{
+			cerr << "the node is empty " << endl;
+		}
+
+		if (temp->data == value)
+		{
+			head = temp->next; 
+			delete temp;
+			return; 
+		}
+
+		while (temp->next != nullptr && temp->data != value)
+		{
+			previous = temp;
+			temp = temp->next;
+
+		}
+		
+		if (temp->data == value)
+		{
+			previous->next = temp->next;
+			delete temp;
+		}
+
+	}
+
+
+
+
+
+
+
+
+
+	void display()///////////////////////////
+	{
+		cout << "displaying the linked_list " << endl;
+		Node* temp = head;
+
+		while (temp != nullptr)
+		{
+			cout << temp->data << " " << "-";
+			temp = temp->next;
+		}
+		cout << "nulllptr" << endl;
+	}
+};
