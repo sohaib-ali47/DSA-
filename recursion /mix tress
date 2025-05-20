@@ -1,0 +1,121 @@
+#include <iostream>
+#include "Tree.h"
+using namespace std;
+
+int main() {
+    Tree myTree(50);  // Create a tree with root node 50
+
+    Node* root = nullptr;  // Start with an empty tree
+
+    // Insert values into the tree
+    root = myTree.insert(root, 50);
+    root = myTree.insert(root, 30);
+    root = myTree.insert(root, 70);
+    root = myTree.insert(root, 20);
+    root = myTree.insert(root, 40);
+    root = myTree.insert(root, 60);
+    root = myTree.insert(root, 80);
+
+    // Print the tree in sorted order (in-order traversal)
+    cout << "In-order Traversal of BST: ";
+    myTree.print(root);
+    cout << endl;
+
+    // Search for a value
+    int value = 40;
+    if (myTree.search(root, value)) {
+        cout << "Found " << value << " in the tree." << endl;
+    } else {
+        cout << "Did not find " << value << " in the tree." << endl;
+    }
+
+    return 0;
+}
+#include "Tree.h"
+
+// Function to insert a new value into the tree
+Node* Tree::insert(Node* root, int value) {
+    // If the tree is empty, create a new node
+    if (root == nullptr) {
+        return new Node(value);  // Create a new node
+    }
+
+    // Otherwise, insert in the left or right subtree based on the value
+    if (value < root->data) {
+        root->left = insert(root->left, value);  // Insert in the left subtree
+    } else if (value > root->data) {
+        root->right = insert(root->right, value);  // Insert in the right subtree
+    }
+
+    return root;  // Return the root (unchanged)
+}
+
+// Function to search for a value in the tree
+bool Tree::search(Node* root, int value) {
+    if (root == nullptr) {
+        return false;  // Value not found
+    }
+    if (root->data == value) {
+        return true;  // Value found
+    }
+
+    // Search in left or right subtree based on the value
+    if (value < root->data) {
+        return search(root->left, value);  // Search in left subtree
+    } else {
+        return search(root->right, value);  // Search in right subtree
+    }
+}
+
+// Function to print the tree using in-order traversal
+void Tree::print(Node* root) {
+    if (root == nullptr) {
+        return;  // Base case: if the node is null, return
+    }
+
+    print(root->left);  // Traverse the left subtree first
+    cout << root->data << " ";  // Print the current node's data
+    print(root->right);  // Then, traverse the right subtree
+}
+#ifndef TREE_H
+#define TREE_H
+
+#include "Node.h"
+#include <iostream>
+using namespace std;
+
+// Tree class inherited from Node class
+class Tree : public Node {
+public:
+    // Constructor for initializing the tree (calls the Node constructor)
+    Tree(int value) : Node(value) {}
+
+    // Function to insert a new value into the tree
+    Node* insert(Node* root, int value);
+
+    // Function to search for a value in the tree
+    bool search(Node* root, int value);
+
+    // Function to print the tree using in-order traversal
+    void print(Node* root);
+};
+
+#endif // TREE_H
+#ifndef NODE_H
+#define NODE_H
+
+// Base Node class
+class Node {
+public:
+    int data;       // Data held by the node
+    Node* left;     // Pointer to the left child
+    Node* right;    // Pointer to the right child
+
+    // Constructor to create a new node with a given value
+    Node(int value) {
+        data = value;
+        left = right = nullptr;
+    }
+};
+
+#endif // NODE_H
