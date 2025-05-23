@@ -1,0 +1,53 @@
+#pragma once
+# include "Node.h"
+using namespace std; 
+# include <iostream>
+
+class Circular_queue :  public Node
+{
+private : 
+	
+	Node* head; 
+public : 
+
+	Circular_queue(int d) : Node(d) {	}
+
+	void insert_at_head (int d)
+	{
+		Node* newNode = new Node(d);
+		if (head = nullptr)
+		{
+			head = newNode; 
+	    }
+		else
+		{
+			Node* temp = head; 
+
+			while (temp != nullptr)
+			{
+				temp = temp->next; 
+
+			}
+			temp->data = d; 
+		}
+	}
+
+	void Display()
+	{
+		if (head = nullptr)
+		{
+			cerr << "empty queue "<< endl ;
+		}
+		Node* temp = head;
+
+		while (temp != nullptr)
+		{
+			cout << " " << temp->data << " person";
+			temp = temp->next; 
+
+		}
+		cout << endl; 
+	}
+
+
+};
