@@ -1,53 +1,97 @@
 #pragma once
-# include "Node.h"
-using namespace std; 
-# include <iostream>
+#include <iostream>
+#include "Node.h"
+using namespace std;
 
-class Circular_queue :  public Node
-{
-private : 
-	
-	Node* head; 
-public : 
+template <typename T>
+class CircularLinkedList {
+private:
+    Node<T>* head;
+    Node<T>* tail;
 
-	Circular_queue(int d) : Node(d) {	}
+public:
+    CircularLinkedList() {
+        head = nullptr;
+        tail = nullptr;
+    }
 
-	void insert_at_head (int d)
-	{
-		Node* newNode = new Node(d);
-		if (head = nullptr)
-		{
-			head = newNode; 
-	    }
-		else
-		{
-			Node* temp = head; 
+    void createList(int total = 41) {
+        for (int i = 1; i <= total; i++) {
+            insert(i);
+        }
+    }
 
-			while (temp != nullptr)
-			{
-				temp = temp->next; 
+    void insert(T value) {
+        Node<T>* newNode = new Node<T>(value);
+        if (head == nullptr) {
+            head = newNode;
+            tail = newNode;
+            tail->next = head;
+        }
+        else {
+            tail->next = newNode;
+            tail = newNode;
+            tail->next = head;
+        }
+    }
 
-			}
-			temp->data = d; 
-		}
-	}
+    T solveJosephus(int start, int step) {
+        if (head == nullptr) {
+            return T();
+        }
 
-	void Display()
-	{
-		if (head = nullptr)
-		{
-			cerr << "empty queue "<< endl ;
-		}
-		Node* temp = head;
+        Node<T>* temp = head;
+        Node<T>* prev = tail;
 
-		while (temp != nullptr)
-		{
-			cout << " " << temp->data << " person";
-			temp = temp->next; 
+        while (temp->data != start) {
+            prev = temp;
+            temp = temp->next;
+        }
 
-		}
-		cout << endl; 
-	}
+        while (temp->next != temp) {
+            for (int i = 1; i < step; i++) {
+                prev = temp;
+                temp = temp->next;
+            }
 
+            prev->next = temp->next;
 
+            if (temp == head) {
+                head = temp->next;
+            }
+
+            if (temp == tail) {
+                tail = prev;
+            }
+
+            delete temp;
+            temp = prev->next;
+        }
+
+        T survivor = temp->data;
+        delete temp;
+        head = nullptr;
+        tail = nullptr;
+        return survivor;
+    }
+
+    void clearList() {
+        if (head == nullptr) return;
+
+        Node<T>* current = head;
+        Node<T>* nextNode;
+
+        do {
+            nextNode = current->next;
+            delete current;
+            current = nextNode;
+        } while (current != head);
+
+        head = nullptr;
+        tail = nullptr;
+    }
+
+    ~CircularLinkedList() {
+        clearList();
+    }
 };
