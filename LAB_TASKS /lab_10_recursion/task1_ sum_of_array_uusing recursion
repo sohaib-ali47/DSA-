@@ -1,1 +1,64 @@
-f
+# include <iostream>
+using namespace std; 
+
+void display_sum(int *& arr, int &size);   //  declatring the 
+void sum(int* arr, int size,int & count); //   functions 
+void enter_elements(int* &arr, int size);//    for use before we define it 
+
+int main()
+{
+	int* arr;
+	int size ; 
+
+ display_sum(arr, size); // main function to in which we'll use the sum and the enter eelements 
+
+
+	return 0; 
+}
+
+void display_sum(int *& arr, int &size)
+{
+ 
+	cout << "enter the size of array :";
+	int s; cin >> s;  size = s; 
+	arr = new int[size]; 
+
+	cout << "enter the elements in the array"<<endl;
+	 enter_elements(arr, size);  // a function to inisilized  all the elements into the arr
+	 int count = 0;
+
+	 sum(arr,  size,count );   // a function that tells the sum using the recursion 
+	 cout << "sum of all the elements in the array is " << count << endl; 
+}
+
+void enter_elements(int *& arr, int size ) {
+
+	int n;
+	if (size == 1)
+	{
+		cin >> n; 
+		arr[size-1] = n;
+		return;
+	}
+
+
+	cin >> n;
+	arr[size-1] = n;
+	enter_elements(arr, size - 1);
+}
+
+
+void sum(int* arr, int size, int& count) {
+	
+	if (size == 1)
+	{
+		count += arr[size-1];
+	
+		return;
+	}
+
+
+	count += arr[size-1];
+	sum(arr, size - 1,count);
+
+}
