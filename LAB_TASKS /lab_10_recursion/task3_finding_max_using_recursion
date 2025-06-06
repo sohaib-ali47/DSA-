@@ -1,0 +1,31 @@
+task3# include <iostream>
+using namespace std;
+
+
+void  max(int arr[], int size, int & M, int  index )
+ {
+	if (index == size)
+		return ;
+	
+	if (arr[index]> M)
+	{ 
+		M = arr[index];
+
+	}
+	cout << arr[index] << " ";
+
+	index = index ++;
+	max(arr, size, M, index);
+	
+}
+int main()
+{
+
+	int arr[] = { 12, 5, 18, 7, 3 };
+	int size = 5;
+	int M = 0, index = 0;
+	max(arr, size, M, index );
+	cout <<endl << "max element is " << M <<endl;
+
+	return 0;
+}
