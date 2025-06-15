@@ -1,1 +1,26 @@
-.
+#include <iostream>
+#include "tree_2.h"
+using namespace std;
+
+int main() {
+    AVL tree;
+
+    // Inserting values
+    tree.insert(30);
+    tree.insert(20);
+    tree.insert(40);
+    tree.insert(10);  // 10  will be Left-heavy insert
+    tree.insert(25);  // 25 will Triggers balancing
+    tree.insert(50);
+    tree.insert(5);   // Deep left insert
+
+    tree.print_inorder();  // sorted values disply
+
+    // Deletin  and check balance
+    cout << "Deleting 20...\n";
+    tree.remove(20);
+
+    tree.print_inorder();  // check the balnce by printing 
+
+    return 0;
+}
